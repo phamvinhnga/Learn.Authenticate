@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Learn.Authenticate.Entity.Migrations;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Learn.Authenticate.Entity.Entities
@@ -22,6 +23,11 @@ namespace Learn.Authenticate.Entity.Entities
             {
                 return $"{this.Surname.Trim()} { this.Name.Trim() }";
             }
+        }
+
+        public void SetPasswordHasher(string password)
+        {
+            PasswordHash = new PasswordHasher<User>().HashPassword(this, password);
         }
     }
 }

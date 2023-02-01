@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Learn.Authenticate.Api", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Learn.Authenticate.Entity", "src\Learn.Authenticate.Entity\Learn.Authenticate.Entity.csproj", "{06252566-E2A3-4D6F-9EA9-93B8E75447EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn.Authenticate.Biz", "Learn.Authenticate.Biz\Learn.Authenticate.Biz.csproj", "{B9C83301-3E3B-4117-9F91-4BAD721D3429}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn.Authenticate.Shared", "Learn.Authenticate.Shared\Learn.Authenticate.Shared.csproj", "{727CF6AF-15C7-43EB-81AE-D2AED073D8C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{06252566-E2A3-4D6F-9EA9-93B8E75447EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06252566-E2A3-4D6F-9EA9-93B8E75447EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06252566-E2A3-4D6F-9EA9-93B8E75447EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9C83301-3E3B-4117-9F91-4BAD721D3429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9C83301-3E3B-4117-9F91-4BAD721D3429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9C83301-3E3B-4117-9F91-4BAD721D3429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9C83301-3E3B-4117-9F91-4BAD721D3429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{727CF6AF-15C7-43EB-81AE-D2AED073D8C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{727CF6AF-15C7-43EB-81AE-D2AED073D8C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{727CF6AF-15C7-43EB-81AE-D2AED073D8C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{727CF6AF-15C7-43EB-81AE-D2AED073D8C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

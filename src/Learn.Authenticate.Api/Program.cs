@@ -3,14 +3,16 @@ using Learn.Authenticate.Api.Services.ServiceBuilders;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerServiceBuilder(configuration);
+builder.Services.UseAuthServiceBuilder(configuration);
 builder.Services.UseSqlServiceBuilder(configuration);
 builder.Services.UseMigrationServiceBuilder(configuration);
+builder.Services.UseAutoMapperServiceBuilder(configuration);
+builder.Services.UseInjectionServiceBuilder(configuration);
+builder.Services.UseWebServiceBuilder(configuration);
 
 var app = builder.Build();
 
@@ -20,11 +22,10 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
     app.UseSwaggerApplicationBuilder(configuration);
 }
 
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
+app.UseAuthentication();
+app.UseRouting();
 app.MapControllers();
 
 app.Run();
