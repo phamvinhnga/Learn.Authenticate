@@ -1,12 +1,5 @@
 ﻿using AutoMapper;
-using Learn.Authenticate.Biz.Dto;
-using Learn.Authenticate.Biz.Model;
-using Learn.Authenticate.Entity.Entities;
-using Microsoft.IdentityModel.Tokens;
-using Mysqlx.Crud;
-using System.Diagnostics.Contracts;
-using System.Text;
-using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
+using Learn.Authenticate.Biz.AutoMapper;
 
 namespace Learn.Authenticate.Api.Services.ServiceBuilders
 {
@@ -16,10 +9,9 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<UserSignInInputDto, UserSignInInputModel>();
-                cfg.CreateMap<UserSignInInputModel, User>()
-                    .ForMember(d => d.PasswordHash, o => o.Ignore());
+                cfg.AddProfile(new MappingProfile());
             });
+
             services.AddSingleton(config.CreateMapper());
         }
     }

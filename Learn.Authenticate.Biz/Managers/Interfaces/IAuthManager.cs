@@ -10,6 +10,10 @@ namespace Learn.Authenticate.Biz.Managers.Interfaces
 {
     public interface IAuthManager
     {
-        Task<IdentityResult> SignUpAsync(UserSignInInputModel input);
+        Task<IdentityResult> SignUpAsync(UserSignUpInputModel input);
+
+        Task<UserSignInOutputModel> SignInAsync(UserSignInInputModel input);
+
+        Task<CurrentUserOutputModel> GetCurrentUserByIdAsync(int userId);
     }
 }

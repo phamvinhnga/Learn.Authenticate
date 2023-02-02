@@ -21,7 +21,7 @@ namespace Learn.Authenticate.Entity.Entities
         {
             get
             {
-                return $"{this.Surname.Trim()} { this.Name.Trim() }";
+                return $"{this.Surname.Trim()} {this.Name.Trim()}";
             }
         }
 

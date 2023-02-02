@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -15,21 +16,21 @@ namespace Infrastuctures.ServiceBuilders
             app.UseSwaggerUI();
         }
 
-        public static void AddSwaggerServiceBuilder(this IServiceCollection services, IConfiguration configuration)
+        public static void UseSwaggerServiceBuilder(this IServiceCollection services, IConfiguration configuration)
         {
             if (!configuration.GetValue<bool>("Swagger:Enabled", false)) return;
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo.Service", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Learn.Authenticate.Api", Version = "v1" });
                 // Define the BearerAuth scheme that's in use
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
                     Name = "Authorization",
-                    In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                  {
@@ -39,7 +40,7 @@ namespace Infrastuctures.ServiceBuilders
                             Reference = new OpenApiReference
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Id = JwtBearerDefaults.AuthenticationScheme
                             }
                         },
                         new string[] {}

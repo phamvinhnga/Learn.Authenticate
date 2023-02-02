@@ -1,4 +1,4 @@
-﻿using Learn.Authenticate.Entity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -6,29 +6,30 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
 {
     internal static class AuthServiceBuilder
     {
-        private const string _authenticationScheme = "JwtBearer";
-
         internal static void UseAuthServiceBuilder(this IServiceCollection services, IConfiguration configuration)
         {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidAudience = configuration.GetSection("JWT:ValidAudience").Value,
+                ValidIssuer = configuration.GetSection("JWT:ValidIssuer").Value,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JWT:SecurityKey").Value))
+            };
+
+            services.AddAuthorization();
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = _authenticationScheme;
-                options.DefaultChallengeScheme = _authenticationScheme;
-            }).AddJwtBearer(_authenticationScheme, options =>
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
             {
-                options.Audience = configuration.GetSection("Authentication:JwtBearer:Audience").Value;
-
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    SaveSigninToken = true,
-                    ValidIssuer = configuration.GetSection("Authentication:JwtBearer:Issuer").Value,
-                    ValidAudience = configuration.GetSection("Authentication:JwtBearer:Audience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.GetSection("Authentication:JwtBearer:SecurityKey").Value)),
-                };
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = tokenValidationParameters;
             });
         } 
     }
