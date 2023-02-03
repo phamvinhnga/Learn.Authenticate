@@ -10,6 +10,7 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
         {
             services.AddDbContext<ApplicationDbContext>()
                 .AddIdentity<User, Role>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }
 

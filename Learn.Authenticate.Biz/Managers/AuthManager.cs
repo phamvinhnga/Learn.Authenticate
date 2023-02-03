@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Learn.Authenticate.Biz.Dto;
+using Learn.Authenticate.Biz.Managers;
 using Learn.Authenticate.Biz.Managers.Interfaces;
 using Learn.Authenticate.Biz.Model;
 using Learn.Authenticate.Entity.Entities;
@@ -9,6 +10,7 @@ using Learn.Authenticate.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -19,20 +21,21 @@ namespace Learn.Authenticate.Biz.Services
     public class AuthManager : IAuthManager
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthManager> _logger;
 
         public AuthManager(
             IMapper mapper,
             IConfiguration configuration,
             UserManager<User> userManager,
-            SignInManager<User> signInManager
+            SignInManager<User> signInManager,
+            ILogger<AuthManager> logger
         ) { 
             _mapper = mapper;
             _userManager = userManager;
             _configuration = configuration;
-            _signInManager = signInManager;
+            _logger = logger;
         }
 
         public async Task<CurrentUserOutputModel> GetCurrentUserByIdAsync(int userId)
@@ -84,10 +87,10 @@ namespace Learn.Authenticate.Biz.Services
                 throw new UnauthorizedException("Incorrect account or password", StatusCodes.Status406NotAcceptable);
             }
 
-            return BuildToken(user);
+            return await BuildTokenAsync(user);
         }
 
-        private UserSignInOutputModel BuildToken(User user)
+        private async Task<UserSignInOutputModel> BuildTokenAsync(User user)
         {
             var claims = new List<Claim>()
             {
@@ -96,8 +99,20 @@ namespace Learn.Authenticate.Biz.Services
                 new Claim(AuthExtension.UserExtentionId, user.ExtentionId.ToString())
             };
 
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if (!roles.Any())
+            {
+                _logger.LogWarning($"UserName {user.UserName} have not role");
+            }
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:SecurityKey").Value));
-            var expires = DateTime.Now.AddMinutes(int.Parse(_configuration.GetSection("JWT:Expires").Value));
+            var expires = DateTime.Now.AddHours(int.Parse(_configuration.GetSection("JWT:Expires").Value));
             var audience = _configuration.GetSection("JWT:ValidAudience").Value;
             var issuer = _configuration.GetSection("JWT:ValidIssuer").Value;
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
