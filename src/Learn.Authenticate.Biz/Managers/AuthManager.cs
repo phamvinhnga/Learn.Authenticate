@@ -21,6 +21,7 @@ namespace Learn.Authenticate.Biz.Services
     public class AuthManager : IAuthManager
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthManager> _logger;
@@ -30,11 +31,13 @@ namespace Learn.Authenticate.Biz.Services
             IConfiguration configuration,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
+            RoleManager<Role> roleManager,
             ILogger<AuthManager> logger
         ) { 
             _mapper = mapper;
             _userManager = userManager;
             _configuration = configuration;
+            _roleManager = roleManager;
             _logger = logger;
         }
 
@@ -99,16 +102,31 @@ namespace Learn.Authenticate.Biz.Services
                 new Claim(AuthExtension.UserExtentionId, user.ExtentionId.ToString())
             };
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
 
-            if (!roles.Any())
+            if (!userRoles.Any())
             {
                 _logger.LogWarning($"UserName {user.UserName} have not role");
             }
 
-            foreach (var role in roles)
+            foreach (var userRole in userRoles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+
+                var role = await _roleManager.FindByNameAsync(userRole);
+
+                if (role == null)
+                {
+                    _logger.LogError($"Role {userRole} cant not found");
+                    throw new ApplicationException($"Role {userRole} cant not found");
+                }
+
+                var roleClaims = await _roleManager.GetClaimsAsync(role);
+                foreach (Claim roleClaim in roleClaims)
+                {
+                    claims.Add(roleClaim);
+                }
+
             }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:SecurityKey").Value));

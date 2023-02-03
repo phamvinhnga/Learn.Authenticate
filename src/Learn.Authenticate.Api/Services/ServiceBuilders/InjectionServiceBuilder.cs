@@ -1,6 +1,8 @@
 ﻿using Learn.Authenticate.Biz.Managers;
 using Learn.Authenticate.Biz.Managers.Interfaces;
 using Learn.Authenticate.Biz.Services;
+using Learn.Authenticate.Entity.Repositories;
+using Learn.Authenticate.Entity.Repositories.Interfaces;
 
 namespace Learn.Authenticate.Api.Services.ServiceBuilders
 {
@@ -10,6 +12,7 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
         {
             services.AddTransient<IAuthManager, AuthManager>();
             services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<IUserRepository, UserRepository>();
         }
     }
 }

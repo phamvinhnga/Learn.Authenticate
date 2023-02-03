@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Learn.Authenticate.Shared.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -19,7 +20,6 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("JWT:SecurityKey").Value))
             };
 
-            services.AddAuthorization();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -31,6 +31,12 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = tokenValidationParameters;
             });
-        } 
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(PolicyExtention.Manager_Account_Staff, policy => policy.RequireClaim(PolicyExtention.Manager_Account_Staff));
+            });
+
+        }
     }
 }

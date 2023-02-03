@@ -18,6 +18,8 @@ namespace Learn.Authenticate.Biz.AutoMapper
             CreateMap<StaffRegisterInputDto, StaffRregisterInputModel>();
             CreateMap<StaffRregisterInputModel, User>()
                 .ForMember(d => d.PasswordHash, o => o.Ignore());
+            CreateMap<StaffOutputModel, User>();
+            CreateMap<StaffOutputDto, StaffOutputModel>();
         }
     }
 }
