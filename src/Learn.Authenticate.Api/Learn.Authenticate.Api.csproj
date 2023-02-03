@@ -10,10 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Learn.Authenticate.Biz\Learn.Authenticate.Biz.csproj" />
-    <ProjectReference Include="..\..\Learn.Authenticate.Shared\Learn.Authenticate.Shared.csproj" />
     <ProjectReference Include="..\Infrastuctures\Infrastuctures.csproj" />
+    <ProjectReference Include="..\Learn.Authenticate.Biz\Learn.Authenticate.Biz.csproj" />
     <ProjectReference Include="..\Learn.Authenticate.Entity\Learn.Authenticate.Entity.csproj" />
+    <ProjectReference Include="..\Learn.Authenticate.Shared\Learn.Authenticate.Shared.csproj" />
   </ItemGroup>
 
 </Project>

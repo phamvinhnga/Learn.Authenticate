@@ -6,8 +6,8 @@
   </PropertyGroup>
 	
   <ItemGroup>
+    <ProjectReference Include="..\Learn.Authenticate.Entity\Learn.Authenticate.Entity.csproj" />
     <ProjectReference Include="..\Learn.Authenticate.Shared\Learn.Authenticate.Shared.csproj" />
-    <ProjectReference Include="..\src\Learn.Authenticate.Entity\Learn.Authenticate.Entity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,7 +5,6 @@ using Learn.Authenticate.Entity.Entities;
 using Learn.Authenticate.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 
 namespace Learn.Authenticate.Biz.Managers
 {
@@ -17,11 +16,13 @@ namespace Learn.Authenticate.Biz.Managers
 
         public UserManager(
              UserManager<User> userManager,
-             RoleManager<Role> roleManager
+             RoleManager<Role> roleManager,
+             IMapper mapper
             ) 
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _mapper = mapper;
         }
 
         public async Task RegisterStaffAsync(StaffRregisterInputModel input)
