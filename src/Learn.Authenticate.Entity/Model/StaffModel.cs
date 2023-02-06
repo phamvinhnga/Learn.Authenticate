@@ -1,4 +1,4 @@
-﻿namespace Learn.Authenticate.Biz.Model
+﻿namespace Learn.Authenticate.Entity.Model
 {
     public class StaffRregisterInputModel
     {

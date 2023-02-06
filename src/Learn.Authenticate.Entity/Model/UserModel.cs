@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Learn.Authenticate.Biz.Model
+namespace Learn.Authenticate.Entity.Model
 {
     public class UserSignUpInputModel
     {

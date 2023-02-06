@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Learn.Authenticate.Biz.Dto;
 using Learn.Authenticate.Biz.Managers.Interfaces;
-using Learn.Authenticate.Biz.Model;
+using Learn.Authenticate.Entity.Model;
 using Learn.Authenticate.Shared.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

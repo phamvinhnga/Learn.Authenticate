@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Learn.Authenticate.Biz.Dto;
-using Learn.Authenticate.Biz.Model;
+using Learn.Authenticate.Entity.Model;
 using Learn.Authenticate.Entity.Entities;
 
 namespace Learn.Authenticate.Biz.AutoMapper
@@ -18,8 +18,8 @@ namespace Learn.Authenticate.Biz.AutoMapper
             CreateMap<StaffRegisterInputDto, StaffRregisterInputModel>();
             CreateMap<StaffRregisterInputModel, User>()
                 .ForMember(d => d.PasswordHash, o => o.Ignore());
-            CreateMap<StaffOutputModel, User>();
-            CreateMap<StaffOutputDto, StaffOutputModel>();
+            CreateMap<User, StaffOutputModel>();
+            CreateMap<StaffOutputModel, StaffOutputDto>();
         }
     }
 }

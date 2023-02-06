@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Learn.Authenticate.Biz.Managers.Interfaces;
-using Learn.Authenticate.Biz.Model;
+using Learn.Authenticate.Entity.Model;
 using Learn.Authenticate.Entity.Entities;
 using Learn.Authenticate.Shared.Exceptions;
 using Learn.Authenticate.Shared.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Learn.Authenticate.Entity.Repositories.Interfaces;
 
 namespace Learn.Authenticate.Biz.Managers
 {
@@ -15,21 +16,24 @@ namespace Learn.Authenticate.Biz.Managers
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly RoleManager<Role> _roleManager;
+        private readonly IUserRepository _userRepository;
 
         public UserManager(
              UserManager<User> userManager,
              RoleManager<Role> roleManager,
-             IMapper mapper
+             IMapper mapper,
+             IUserRepository userRepository
             ) 
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public async Task<List<StaffOutputModel>> GetListStaffAsync()
         {
-            var query = await _userManager.Users.ToListAsync();
+            var query = await _userRepository.GetListUserStaff().ToListAsync();
             return _mapper.Map<List<StaffOutputModel>>(query);
         }
 

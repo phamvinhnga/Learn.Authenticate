@@ -2,7 +2,7 @@
 using Learn.Authenticate.Biz.Dto;
 using Learn.Authenticate.Biz.Managers;
 using Learn.Authenticate.Biz.Managers.Interfaces;
-using Learn.Authenticate.Biz.Model;
+using Learn.Authenticate.Entity.Model;
 using Learn.Authenticate.Entity.Entities;
 using Learn.Authenticate.Entity.Migrations;
 using Learn.Authenticate.Shared.Exceptions;

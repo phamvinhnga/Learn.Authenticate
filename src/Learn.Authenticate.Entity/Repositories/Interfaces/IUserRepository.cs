@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Learn.Authenticate.Entity.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Learn.Authenticate.Entity.Repositories.Interfaces
 {
     public interface IUserRepository
     {
+        IQueryable<User> GetListUserStaff();
     }
 }
