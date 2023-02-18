@@ -1,5 +1,7 @@
-﻿using Learn.Authenticate.Shared.Extensions;
+﻿using Learn.Authenticate.Api.Filters;
+using Learn.Authenticate.Shared.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -32,11 +34,23 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
                 options.TokenValidationParameters = tokenValidationParameters;
             });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+
+            });
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(PolicyExtention.Manager_Account_Staff, policy => policy.RequireClaim(PolicyExtention.Manager_Account_Staff));
             });
 
+            services.AddScoped<AdminRoleFilter>();
+            services.AddScoped<StaffRoleFilter>();
         }
     }
 }

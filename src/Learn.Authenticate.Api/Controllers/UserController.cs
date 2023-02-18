@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Learn.Authenticate.Api.Filters;
 using Learn.Authenticate.Biz.Dto;
 using Learn.Authenticate.Biz.Managers.Interfaces;
 using Learn.Authenticate.Entity.Model;
@@ -35,6 +36,7 @@ namespace Learn.Authenticate.Api.Controllers
 
         [HttpGet("staff")]
         [Authorize(Roles = RoleExtension.Admin, Policy = PolicyExtention.Manager_Account_Staff)]
+        //[ServiceFilter(typeof(AdminRoleFilter))]
         public async Task<IActionResult> GetListStaffAsync()
         {
             var retult = await _userManager.GetListStaffAsync();

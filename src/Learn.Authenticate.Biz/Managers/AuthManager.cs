@@ -15,6 +15,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Org.BouncyCastle.Asn1.Ocsp;
+using System.Security.Policy;
+using Learn.Authenticate.Shared.Common;
 
 namespace Learn.Authenticate.Biz.Services
 {
@@ -22,6 +25,7 @@ namespace Learn.Authenticate.Biz.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthManager> _logger;
@@ -39,6 +43,7 @@ namespace Learn.Authenticate.Biz.Services
             _configuration = configuration;
             _roleManager = roleManager;
             _logger = logger;
+            _signInManager = signInManager;
         }
 
         public async Task<CurrentUserOutputModel> GetCurrentUserByIdAsync(int userId)
@@ -72,6 +77,13 @@ namespace Learn.Authenticate.Biz.Services
             user.SetPasswordHasher(input.Password);
 
             var result = await _userManager.CreateAsync(user);
+            await _userManager.AddToRoleAsync(user, RoleExtension.Staff);
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
+            //var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
+            //await _emailSender.SendEmailAsync(message);
+
 
             return result;
         }
@@ -85,12 +97,38 @@ namespace Learn.Authenticate.Biz.Services
                 throw new ArgumentNullException($"Username {input.UserName} cannot found in system");
             }
 
-            if (!await _userManager.CheckPasswordAsync(user, input.Password))
+            if(!await _userManager.IsEmailConfirmedAsync(user))
             {
-                throw new UnauthorizedException("Incorrect account or password", StatusCodes.Status406NotAcceptable);
+                throw new UnauthorizedException("abc", StatusCodes.Status406NotAcceptable);
             }
 
-            return await BuildTokenAsync(user);
+            if (await _userManager.CheckPasswordAsync(user, input.Password))
+            {
+                await SupportsUserLockoutAsync(user);
+
+                if (_userManager.SupportsUserLockout)
+                {
+                    await _userManager.ResetAccessFailedCountAsync(user);
+                }
+                return await BuildTokenAsync(user);
+            }
+
+            await SupportsUserLockoutAsync(user);
+
+            throw new UnauthorizedException("Incorrect account or password", StatusCodes.Status406NotAcceptable);
+        }
+
+        private async Task SupportsUserLockoutAsync(User user)
+        {
+            if (_userManager.SupportsUserLockout)
+            {
+                await _userManager.AccessFailedAsync(user);
+                if (await _userManager.IsLockedOutAsync(user))
+                {
+                    _logger.LogWarning("User is currently locked out.");
+                    throw new UnauthorizedException("User is currently locked out.", StatusCodes.Status406NotAcceptable);
+                }
+            }
         }
 
         private async Task<UserSignInOutputModel> BuildTokenAsync(User user)

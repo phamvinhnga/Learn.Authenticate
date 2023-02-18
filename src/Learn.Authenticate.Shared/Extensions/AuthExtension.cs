@@ -23,6 +23,30 @@ namespace Learn.Authenticate.Shared.Extensions
             return value != null ? Guid.Parse(value) : null;
         }
 
+        public static bool IsAdmin(this IEnumerable<Claim> claims)
+        {
+            var value = GetClaimValueByType(claims, ClaimTypes.Role);
+
+            if(value == null)
+            {
+                return false;
+            }
+
+            return value.ToUpper().Equals(RoleExtension.Admin.ToUpper());
+        }
+
+        public static bool IsStaff(this IEnumerable<Claim> claims)
+        {
+            var value = GetClaimValueByType(claims, ClaimTypes.Role);
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            return value.ToUpper().Equals(RoleExtension.Staff.ToUpper());
+        }
+
         private static string GetClaimValueByType(IEnumerable<Claim> claims, string claimType)
         {
             if (claims == null || !claims.Any() || string.IsNullOrEmpty(claimType))
