@@ -37,9 +37,8 @@ namespace Learn.Authenticate.Api.Controllers
         }
 
         [HttpPost]
-        //[ServiceFilter(typeof(AdminRoleFilter))]
-        [AllowAnonymous]
-        public async Task<IActionResult> CreateAsync([FromForm] PostInputModel input)
+        [ServiceFilter(typeof(AdminRoleFilter))]
+        public async Task<IActionResult> CreateAsync([FromBody] PostInputModel input)
         {
             await _postManager.CreateAsync(input, User.Claims.GetUserId());
             return Ok();

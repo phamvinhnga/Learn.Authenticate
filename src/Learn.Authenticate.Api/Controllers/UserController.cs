@@ -35,8 +35,8 @@ namespace Learn.Authenticate.Api.Controllers
         }
 
         [HttpGet("staff")]
-        [Authorize(Roles = RoleExtension.Admin, Policy = PolicyExtention.Manager_Account_Staff)]
-        //[ServiceFilter(typeof(AdminRoleFilter))]
+        //[Authorize(Roles = RoleExtension.Admin, Policy = PolicyExtention.Manager_Account_Staff)]
+        [ServiceFilter(typeof(AdminRoleFilter))]
         public async Task<IActionResult> GetListStaffAsync()
         {
             var retult = await _userManager.GetListStaffAsync();

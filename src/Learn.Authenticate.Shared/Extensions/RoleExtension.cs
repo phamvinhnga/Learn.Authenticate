@@ -9,5 +9,6 @@
     public static class PolicyExtention
     {
         public const string Manager_Account_Staff = "Manager_Account_Staff";
+        public const string Manager_Post = "Manager_Post";
     }
 }
