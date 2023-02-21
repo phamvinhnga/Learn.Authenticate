@@ -19,8 +19,7 @@ namespace Learn.Authenticate.Entity.Model
         public string Title { get; set; }
         public string Content { get; set; }
         public string Summary { get; set; }
-        public IFormFile Thumbnail { get; set; }
-        public bool IsRemoveThumbnail { get; set; } = false;
+        public FileModel Thumbnail { get; set; }
     }
 
     public class PostOutputModel

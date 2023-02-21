@@ -9,5 +9,6 @@ namespace Learn.Authenticate.Biz.Managers.Interfaces
     {
         string BuidlFileContent(string input, CoreEnum.Folder folder);
         FileModel Upload(IFormFile file, CoreEnum.Folder folder);
+        FileModel Upload(FileModel file, CoreEnum.Folder folder);
     }
 }

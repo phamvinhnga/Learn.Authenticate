@@ -34,10 +34,14 @@ namespace Learn.Authenticate.Biz.Managers
             entity.SetCreateDefault(userId);
             entity.Type = nameof(Folder.Post);
             entity.Content = _fileManager.BuidlFileContent(entity.Content, Folder.Post);
-            if (input.Thumbnail != null)
+            if (input.Thumbnail != null && string.IsNullOrEmpty(input.Thumbnail.Id))
             {
-                var file = _fileManager.Upload(input.Thumbnail, Folder.Post);
+                var file = _fileManager.Upload(input.Thumbnail, CoreEnum.Folder.Post);
                 entity.Thumbnail = file.ConvertToJson();
+            }
+            else
+            {
+                entity.Thumbnail = null;
             }
             await _postRepository.CreateAsync(entity);
         }
@@ -49,16 +53,15 @@ namespace Learn.Authenticate.Biz.Managers
             {
                 throw new BadRequestException($"Cannot find postId {input.Id}");
             }
-
             entity = _mapper.Map<Post>(input);
             entity.SetModifyDefault(userId);
             entity.Content = _fileManager.BuidlFileContent(entity.Content, Folder.Post);
-            if (input.Thumbnail != null)
+            if (input.Thumbnail != null && string.IsNullOrEmpty(input.Thumbnail.Id))
             {
                 var file = _fileManager.Upload(input.Thumbnail, CoreEnum.Folder.Post);
                 entity.Thumbnail = file.ConvertToJson();
             }
-            else if(input.IsRemoveThumbnail)
+            else
             {
                 entity.Thumbnail = null;
             }

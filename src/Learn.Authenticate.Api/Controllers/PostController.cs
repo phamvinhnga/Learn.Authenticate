@@ -44,6 +44,14 @@ namespace Learn.Authenticate.Api.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        [ServiceFilter(typeof(AdminRoleFilter))]
+        public async Task<IActionResult> UpdateAsync([FromBody] PostInputModel input)
+        {
+            await _postManager.UpdateAsync(input, User.Claims.GetUserId());
+            return Ok();
+        }
+
         [HttpPut("{id}")]
         [ServiceFilter(typeof(AdminRoleFilter))]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] PostInputModel input)

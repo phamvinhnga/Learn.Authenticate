@@ -9,6 +9,7 @@ using MySqlX.XDevAPI.Common;
 using System.IO;
 using System.Text.RegularExpressions;
 using static Learn.Authenticate.Shared.Common.CoreEnum;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Learn.Authenticate.Biz.Managers
 {
@@ -50,7 +51,7 @@ namespace Learn.Authenticate.Biz.Managers
                 }
                 var base64String = item.Groups[2].Value;
                 byte[] fileBytes = Convert.FromBase64String(base64String);
-                var id = $"no_name_{Guid.NewGuid()}{GetTypeImage(item.Groups[0].Value)}".Replace("-", "_");
+                var id = $"no_name_{Guid.NewGuid()}{GetTypeFile(item.Groups[0].Value)}".Replace("-", "_");
                 using (var fs = new FileStream($"{uploadPath}\\{id}", FileMode.Create))
                 {
                     fs.Write(fileBytes, 0, fileBytes.Length);
@@ -138,7 +139,8 @@ namespace Learn.Authenticate.Biz.Managers
                 Directory.CreateDirectory(uploadPath);
             }
 
-            byte[] fileBytes = Convert.FromBase64String(file.Url);
+            string str = Regex.Replace(file.Url, @"^data:image\/[a-zA-Z]+;base64,", string.Empty);
+            byte[] fileBytes = Convert.FromBase64String(str);
             using (var fs = new FileStream($"{uploadPath}\\{result.Id}", FileMode.Create))
             {
                 fs.Write(fileBytes, 0, fileBytes.Length);
@@ -147,7 +149,7 @@ namespace Learn.Authenticate.Biz.Managers
             return result;
         }
 
-        private string GetTypeImage(string base64String)
+        private string GetTypeFile(string base64String)
         {
             if (base64String.Contains("data:image/png;base64,"))
             {
