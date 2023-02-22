@@ -1,0 +1,203 @@
+[1mdiff --git a/src/Learn.Authenticate.Api/Controllers/AuthController.cs b/src/Learn.Authenticate.Api/Controllers/AuthController.cs[m
+[1mindex fcf418c..a71484a 100644[m
+[1m--- a/src/Learn.Authenticate.Api/Controllers/AuthController.cs[m
+[1m+++ b/src/Learn.Authenticate.Api/Controllers/AuthController.cs[m
+[36m@@ -42,9 +42,9 @@[m [mnamespace Learn.Authenticate.Api.Controllers[m
+             return Ok(result);[m
+         }[m
+ [m
+[31m-        [HttpGet("sign-in")][m
+[32m+[m[32m        [HttpPost("sign-in")][m
+         [AllowAnonymous][m
+[31m-        public async Task<IActionResult> SignInAsync([FromQuery] UserSignInInputDto input)[m
+[32m+[m[32m        public async Task<IActionResult> SignInAsync([FromBody] UserSignInInputDto input)[m
+         {[m
+             var result = await _authManager.SignInAsync([m
+                 new UserSignInInputModel [m
+[1mdiff --git a/src/Learn.Authenticate.Api/Controllers/PostController.cs b/src/Learn.Authenticate.Api/Controllers/PostController.cs[m
+[1mindex 40c8224..898f243 100644[m
+[1m--- a/src/Learn.Authenticate.Api/Controllers/PostController.cs[m
+[1m+++ b/src/Learn.Authenticate.Api/Controllers/PostController.cs[m
+[36m@@ -31,7 +31,7 @@[m [mnamespace Learn.Authenticate.Api.Controllers[m
+ [m
+         [HttpGet][m
+         [ServiceFilter(typeof(AdminRoleFilter))][m
+[31m-        public async Task<IActionResult> GetListAsync(BasePageInputModel input)[m
+[32m+[m[32m        public async Task<IActionResult> GetListAsync([FromQuery] BasePageInputModel input)[m
+         {[m
+             return Ok(await _postManager.GetListAsync(input));[m
+         }[m
+[1mdiff --git a/src/Learn.Authenticate.Api/Program.cs b/src/Learn.Authenticate.Api/Program.cs[m
+[1mindex e68bf64..cbdac7c 100644[m
+[1m--- a/src/Learn.Authenticate.Api/Program.cs[m
+[1m+++ b/src/Learn.Authenticate.Api/Program.cs[m
+[36m@@ -20,6 +20,11 @@[m [mif (app.Environment.IsDevelopment() || app.Environment.IsStaging())[m
+ {[m
+     app.UseSwaggerApplicationBuilder(configuration);[m
+ }[m
+[32m+[m[32mapp.UseCors(x => x[m
+[32m+[m[32m                .AllowAnyMethod()[m
+[32m+[m[32m                .AllowAnyHeader()[m
+[32m+[m[32m                .SetIsOriginAllowed(origin => true) // allow any origin[m
+[32m+[m[32m                .AllowCredentials());[m
+ app.UseRouting();[m
+ app.UseAuthentication();[m
+ app.UseAuthorization();[m
+[1mdiff --git a/src/Learn.Authenticate.Api/Services/ServiceBuilders/WebServiceBuilder.cs b/src/Learn.Authenticate.Api/Services/ServiceBuilders/WebServiceBuilder.cs[m
+[1mindex 83301bb..7c53ef7 100644[m
+[1m--- a/src/Learn.Authenticate.Api/Services/ServiceBuilders/WebServiceBuilder.cs[m
+[1m+++ b/src/Learn.Authenticate.Api/Services/ServiceBuilders/WebServiceBuilder.cs[m
+[36m@@ -7,16 +7,7 @@[m [mnamespace Learn.Authenticate.Api.Services.ServiceBuilders[m
+     {[m
+         internal static void UseWebServiceBuilder(this IServiceCollection services, IConfiguration configuration)[m
+         {[m
+[31m-            services.AddCors(options =>[m
+[31m-            {[m
+[31m-                options.AddPolicy([m
+[31m-                    name: "localhost",[m
+[31m-                    builder =>[m
+[31m-                    {[m
+[31m-                        builder.WithOrigins("http://localhost:4200").AllowAnyHeader()[m
+[31m-                                                  .AllowAnyMethod();[m
+[31m-                    });[m
+[31m-            });[m
+[32m+[m[32m            services.AddCors(x => x.AddPolicy("AllowAll", builders => builders.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));[m
+ [m
+             services.AddControllers(options =>[m
+             {[m
+[1mdiff --git a/src/Learn.Authenticate.Api/appsettings.json b/src/Learn.Authenticate.Api/appsettings.json[m
+[1mindex 1845ce5..a69d350 100644[m
+[1m--- a/src/Learn.Authenticate.Api/appsettings.json[m
+[1m+++ b/src/Learn.Authenticate.Api/appsettings.json[m
+[36m@@ -11,12 +11,12 @@[m
+   "AllowedHosts": "*",[m
+   "ConnectionString": {[m
+     "DefaultConnection": "Server={0};Database={1};User Id={2};Password={3}",[m
+[31m-    "Server": "*",[m
+[31m-    "UserId": "*",[m
+[31m-    "Password": "*",[m
+[32m+[m[32m    "Server": "localhost",[m
+[32m+[m[32m    "UserId": "root",[m
+[32m+[m[32m    "Password": "Aa@12345",[m
+     "Port": 3306,[m
+[31m-    "Database": "*",[m
+[31m-    "Version": "*"[m
+[32m+[m[32m    "Database": "Learn.Authencation",[m
+[32m+[m[32m    "Version": "8.0.31"[m
+   },[m
+   "JWT": {[m
+     "SecurityKey": "ABC_C421AAEE0D114E9C",[m
+[1mdiff --git a/src/Learn.Authenticate.Entity/ApplicationDbContext.cs b/src/Learn.Authenticate.Entity/ApplicationDbContext.cs[m
+[1mindex 836d1b7..136987e 100644[m
+[1m--- a/src/Learn.Authenticate.Entity/ApplicationDbContext.cs[m
+[1m+++ b/src/Learn.Authenticate.Entity/ApplicationDbContext.cs[m
+[36m@@ -43,10 +43,10 @@[m [mnamespace Learn.Authenticate.Entity[m
+             }[m
+         }[m
+ [m
+[31m-        public DbSet<Category> Category { get;set; }[m
+[31m-        public DbSet<Location> Location { get;set; }[m
+[31m-        public DbSet<Shop> Shop { get;set; }[m
+[31m-        public DbSet<WebSetting> WebSetting { get;set; }[m
+[32m+[m[32m        //public DbSet<Category> Category { get;set; }[m
+[32m+[m[32m        //public DbSet<Location> Location { get;set; }[m
+[32m+[m[32m        //public DbSet<Shop> Shop { get;set; }[m
+[32m+[m[32m        //public DbSet<WebSetting> WebSetting { get;set; }[m
+         public DbSet<Post> Post { get;set; }[m
+     }[m
+ }[m
+[1mdiff --git a/src/Learn.Authenticate.Entity/Entities/Post.cs b/src/Learn.Authenticate.Entity/Entities/Post.cs[m
+[1mindex 7956830..bb75cfc 100644[m
+[1m--- a/src/Learn.Authenticate.Entity/Entities/Post.cs[m
+[1m+++ b/src/Learn.Authenticate.Entity/Entities/Post.cs[m
+[36m@@ -1,13 +1,18 @@[m
+[31m-﻿using System;[m
+[32m+[m[32m﻿using MySqlX.XDevAPI;[m
+[32m+[m[32musing System;[m
+ using System.Collections.Generic;[m
+[32m+[m[32musing System.ComponentModel.DataAnnotations;[m
+[32m+[m[32musing System.ComponentModel.DataAnnotations.Schema;[m
+ using System.Linq;[m
+ using System.Text;[m
+ using System.Threading.Tasks;[m
+ [m
+ namespace Learn.Authenticate.Entity.Entities[m
+ {[m
+[32m+[m[32m    [Table("Post")][m
+     public class Post : BaseEntity<int>[m
+     {[m
+[32m+[m[32m        [Required][m
+         public string Title { get; set; }[m
+         public string Content { get; set; }[m
+         public string Summary { get; set; }[m
+[1mdiff --git a/src/Learn.Authenticate.Entity/Migrations/ApplicationDbContextModelSnapshot.cs b/src/Learn.Authenticate.Entity/Migrations/ApplicationDbContextModelSnapshot.cs[m
+[1mindex dd25850..1237948 100644[m
+[1m--- a/src/Learn.Authenticate.Entity/Migrations/ApplicationDbContextModelSnapshot.cs[m
+[1m+++ b/src/Learn.Authenticate.Entity/Migrations/ApplicationDbContextModelSnapshot.cs[m
+[36m@@ -19,6 +19,48 @@[m [mnamespace Learn.Authenticate.Entity.Migrations[m
+                 .HasAnnotation("ProductVersion", "6.0.13")[m
+                 .HasAnnotation("Relational:MaxIdentifierLength", 64);[m
+ [m
+[32m+[m[32m            modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Post", b =>[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    b.Property<int>("Id")[m
+[32m+[m[32m                        .ValueGeneratedOnAdd()[m
+[32m+[m[32m                        .HasColumnType("int");[m
+[32m+[m
+[32m+[m[32m                    b.Property<string>("Content")[m
+[32m+[m[32m                        .HasColumnType("longtext");[m
+[32m+[m
+[32m+[m[32m                    b.Property<DateTime>("CreateDate")[m
+[32m+[m[32m                        .HasColumnType("datetime(6)");[m
+[32m+[m
+[32m+[m[32m                    b.Property<int>("CreateUser")[m
+[32m+[m[32m                        .HasColumnType("int");[m
+[32m+[m
+[32m+[m[32m                    b.Property<string>("Images")[m
+[32m+[m[32m                        .HasColumnType("longtext");[m
+[32m+[m
+[32m+[m[32m                    b.Property<DateTime>("ModifyDate")[m
+[32m+[m[32m                        .HasColumnType("datetime(6)");[m
+[32m+[m
+[32m+[m[32m                    b.Property<int>("ModifyUser")[m
+[32m+[m[32m                        .HasColumnType("int");[m
+[32m+[m
+[32m+[m[32m                    b.Property<string>("Summary")[m
+[32m+[m[32m                        .HasColumnType("longtext");[m
+[32m+[m
+[32m+[m[32m                    b.Property<string>("Thumbnail")[m
+[32m+[m[32m                        .HasColumnType("longtext");[m
+[32m+[m
+[32m+[m[32m                    b.Property<string>("Title")[m
+[32m+[m[32m                        .IsRequired()[m
+[32m+[m[32m                        .HasColumnType("longtext");[m
+[32m+[m
+[32m+[m[32m                    b.Property<string>("Type")[m
+[32m+[m[32m                        .HasColumnType("longtext");[m
+[32m+[m
+[32m+[m[32m                    b.HasKey("Id");[m
+[32m+[m
+[32m+[m[32m                    b.ToTable("Post");[m
+[32m+[m[32m                });[m
+[32m+[m
+             modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Role", b =>[m
+                 {[m
+                     b.Property<int>("Id")[m
+[1mdiff --git a/src/Learn.Authenticate.Entity/Model/FileModel.cs b/src/Learn.Authenticate.Entity/Model/FileModel.cs[m
+[1mindex dac8348..6e5c411 100644[m
+[1m--- a/src/Learn.Authenticate.Entity/Model/FileModel.cs[m
+[1m+++ b/src/Learn.Authenticate.Entity/Model/FileModel.cs[m
+[36m@@ -9,13 +9,9 @@[m [mnamespace Learn.Authenticate.Entity.Model[m
+ {[m
+     public class FileModel[m
+     {[m
+[31m-        [JsonPropertyName("Id")][m
+         public string Id { get; set; }[m
+[31m-        [JsonPropertyName("IdName")][m
+         public string Name { get; set; }[m
+[31m-        [JsonPropertyName("Type")][m
+         public string Type { get; set; }[m
+[31m-        [JsonPropertyName("Url")][m
+         public string Url { get; set; }[m
+     }[m
+ }[m

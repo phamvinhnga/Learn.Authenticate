@@ -9,13 +9,9 @@ namespace Learn.Authenticate.Entity.Model
 {
     public class FileModel
     {
-        [JsonPropertyName("Id")]
         public string Id { get; set; }
-        [JsonPropertyName("IdName")]
         public string Name { get; set; }
-        [JsonPropertyName("Type")]
         public string Type { get; set; }
-        [JsonPropertyName("Url")]
         public string Url { get; set; }
     }
 }

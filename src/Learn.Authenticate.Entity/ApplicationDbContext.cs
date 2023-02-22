@@ -43,10 +43,10 @@ namespace Learn.Authenticate.Entity
             }
         }
 
-        public DbSet<Category> Category { get;set; }
-        public DbSet<Location> Location { get;set; }
-        public DbSet<Shop> Shop { get;set; }
-        public DbSet<WebSetting> WebSetting { get;set; }
+        //public DbSet<Category> Category { get;set; }
+        //public DbSet<Location> Location { get;set; }
+        //public DbSet<Shop> Shop { get;set; }
+        //public DbSet<WebSetting> WebSetting { get;set; }
         public DbSet<Post> Post { get;set; }
     }
 }

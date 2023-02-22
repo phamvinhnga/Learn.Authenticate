@@ -42,9 +42,9 @@ namespace Learn.Authenticate.Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet("sign-in")]
+        [HttpPost("sign-in")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignInAsync([FromQuery] UserSignInInputDto input)
+        public async Task<IActionResult> SignInAsync([FromBody] UserSignInInputDto input)
         {
             var result = await _authManager.SignInAsync(
                 new UserSignInInputModel 

@@ -20,6 +20,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 {
     app.UseSwaggerApplicationBuilder(configuration);
 }
+app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -31,7 +31,7 @@ namespace Learn.Authenticate.Api.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(AdminRoleFilter))]
-        public async Task<IActionResult> GetListAsync(BasePageInputModel input)
+        public async Task<IActionResult> GetListAsync([FromQuery] BasePageInputModel input)
         {
             return Ok(await _postManager.GetListAsync(input));
         }
