@@ -4,7 +4,6 @@ using Learn.Authenticate.Biz.Managers;
 using Learn.Authenticate.Biz.Managers.Interfaces;
 using Learn.Authenticate.Entity.Model;
 using Learn.Authenticate.Entity.Entities;
-using Learn.Authenticate.Entity.Migrations;
 using Learn.Authenticate.Shared.Exceptions;
 using Learn.Authenticate.Shared.Extensions;
 using Microsoft.AspNetCore.Http;

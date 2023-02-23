@@ -28,7 +28,7 @@ namespace Learn.Authenticate.Biz.Managers
             var entity = await _locationRepository.GetByIdAsync(id);
             if (entity == null)
             {
-                throw new BadRequestException($"Cannot find postId {id}");
+                throw new BadRequestException($"Cannot find locationId {id}");
             }
             await _locationRepository.DeleteAsync(entity);
         }
@@ -38,7 +38,7 @@ namespace Learn.Authenticate.Biz.Managers
             var query = await _locationRepository.GetByIdAsync(id);
             if (query == null)
             {
-                throw new BadRequestException($"Cannot find postId {id}");
+                throw new BadRequestException($"Cannot find locationId {id}");
             }
             return query.JsonMapTo<LocationOutputModel>();
         }
@@ -63,6 +63,8 @@ namespace Learn.Authenticate.Biz.Managers
                 throw new BadRequestException($"Cannot find postId {input.Id}");
             }
             entity.Name = input.Name;
+            entity.Status = input.Status;
+            entity.SetModifyDefault(userId, DateTime.Now);
             await _locationRepository.UpdateAsync(entity);
         }
     }

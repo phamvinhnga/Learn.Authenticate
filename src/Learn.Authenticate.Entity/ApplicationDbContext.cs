@@ -54,11 +54,14 @@ namespace Learn.Authenticate.Entity
                     UserName = "Admin",
                     NormalizedUserName = "ADMIN",
                     NormalizedEmail = "Admin@gmail.com".ToUpper(),
-                    PasswordHash = "\"AQAAAAEAACcQAAAAEMM3WcPhO+pCDtY91ukic7qiLutGRSmMj5UmQtJvUNzacT0ZT9ndKTAWF2NzyNYpWA==\"", ExtentionId = Guid.NewGuid() }
+                    PasswordHash = "\"AQAAAAEAACcQAAAAEMM3WcPhO+pCDtY91ukic7qiLutGRSmMj5UmQtJvUNzacT0ZT9ndKTAWF2NzyNYpWA==\"", 
+                    ConcurrencyStamp = "418f2935-171e-4f02-90b4-93a8746f4bf6",
+                    ExtentionId = new Guid("2a17f888-1e93-4334-9189-d81c3aac9c45")
+                }
             );
             builder.Entity<Role>().HasData(
-                new Role { Id = 1, Name = "Admin", NormalizedName = "ADMIN" },
-                new Role { Id = 2, Name = "Staff", NormalizedName = "STAFF" }
+                new Role { Id = 1, Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "96dbb24d-4654-4ffc-ab7a-0d5468aae9df" },
+                new Role { Id = 2, Name = "Staff", NormalizedName = "STAFF", ConcurrencyStamp = "59320394-0be6-4dba-8e5c-ee1068054d9c" }
             );
             builder.Entity<IdentityUserRole<int>>().HasData(
                 new IdentityUserRole<int> { UserId = 1, RoleId = 1 }

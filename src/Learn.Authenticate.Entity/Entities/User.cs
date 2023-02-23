@@ -1,5 +1,4 @@
-﻿using Learn.Authenticate.Entity.Migrations;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Learn.Authenticate.Entity.Entities

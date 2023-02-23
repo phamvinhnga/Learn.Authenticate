@@ -19,6 +19,44 @@ namespace Learn.Authenticate.Entity.Migrations
                 .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("CreateUser")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ModifyUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Location");
+                });
+
             modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -91,14 +129,14 @@ namespace Learn.Authenticate.Entity.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "19140c39-2aae-4359-9f09-ac896a56e63e",
+                            ConcurrencyStamp = "96dbb24d-4654-4ffc-ab7a-0d5468aae9df",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "fb500dc6-cde1-4141-9e8b-123907b82b75",
+                            ConcurrencyStamp = "59320394-0be6-4dba-8e5c-ee1068054d9c",
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
@@ -186,10 +224,10 @@ namespace Learn.Authenticate.Entity.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3651f04d-d587-4b22-9a88-72b6328865ef",
+                            ConcurrencyStamp = "418f2935-171e-4f02-90b4-93a8746f4bf6",
                             Email = "Admin@gmail.com",
                             EmailConfirmed = false,
-                            ExtentionId = new Guid("4d7aae75-6f1d-4545-89dc-b673680b83c5"),
+                            ExtentionId = new Guid("2a17f888-1e93-4334-9189-d81c3aac9c45"),
                             LockoutEnabled = false,
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",

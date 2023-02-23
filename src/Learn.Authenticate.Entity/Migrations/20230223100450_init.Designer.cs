@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learn.Authenticate.Entity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230222134232_Create_post_table")]
-    partial class Create_post_table
+    [Migration("20230223100450_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,44 @@ namespace Learn.Authenticate.Entity.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("CreateUser")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ModifyUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Location");
+                });
 
             modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Post", b =>
                 {
@@ -88,6 +126,22 @@ namespace Learn.Authenticate.Entity.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "96dbb24d-4654-4ffc-ab7a-0d5468aae9df",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "59320394-0be6-4dba-8e5c-ee1068054d9c",
+                            Name = "Staff",
+                            NormalizedName = "STAFF"
+                        });
                 });
 
             modelBuilder.Entity("Learn.Authenticate.Entity.Entities.User", b =>
@@ -166,6 +220,26 @@ namespace Learn.Authenticate.Entity.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "418f2935-171e-4f02-90b4-93a8746f4bf6",
+                            Email = "Admin@gmail.com",
+                            EmailConfirmed = false,
+                            ExtentionId = new Guid("2a17f888-1e93-4334-9189-d81c3aac9c45"),
+                            LockoutEnabled = false,
+                            Name = "Admin",
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "\"AQAAAAEAACcQAAAAEMM3WcPhO+pCDtY91ukic7qiLutGRSmMj5UmQtJvUNzacT0ZT9ndKTAWF2NzyNYpWA==\"",
+                            PhoneNumberConfirmed = false,
+                            Surname = "ADMIN",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -246,6 +320,13 @@ namespace Learn.Authenticate.Entity.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>

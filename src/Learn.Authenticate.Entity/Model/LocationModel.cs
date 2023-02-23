@@ -18,6 +18,7 @@ namespace Learn.Authenticate.Entity.Model
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }
+        [Required]
         public string Status { get; set; }
         public int ParentId { get; set; }
     }
