@@ -29,5 +29,7 @@ namespace Learn.Authenticate.Entity.Model
         public string Content { get; set; }
         public string Summary { get; set; }
         public FileModel Thumbnail { get; set; }
+        public DateTime CreateDate { get; set; }
+        public int CreateUser { get; set; }
     }
 }
