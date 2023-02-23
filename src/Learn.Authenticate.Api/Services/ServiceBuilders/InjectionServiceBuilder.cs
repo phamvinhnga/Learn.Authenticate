@@ -15,11 +15,13 @@ namespace Learn.Authenticate.Api.Services.ServiceBuilders
             services.AddTransient<IUserManager, UserManager>();
             services.AddTransient<IPostManager, PostManager>();
             services.AddTransient<IFileManager, FileManager>();
+            services.AddTransient<ILocationManager, LocationManager>();
             #endregion End Manager
 
             #region Repository
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<ILocationRepository, LocationRepository>();
             #endregion End Repository
         }
     }

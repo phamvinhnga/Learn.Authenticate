@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace Learn.Authenticate.Entity.Entities
 {
-    [Table("Post")]
-    public class Location : BaseTreeEntity<int>
+    [Table("Location")]
+    public class Location : BaseEntity<int>
     {
         [Required]
         public string Name { get; set; }
-        public string Description { get; set; }
+        [Required]
+        public string Type { get; set; }
+        public int ParentId { get; set; }
+        public string Status { get; set; }
     }
 }
