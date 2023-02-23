@@ -43,6 +43,29 @@ namespace Learn.Authenticate.Entity
             }
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>().HasData(
+                new User { 
+                    Id = 1, 
+                    Name = "Admin",
+                    Email = "Admin@gmail.com", 
+                    Surname = "ADMIN", 
+                    UserName = "Admin",
+                    NormalizedUserName = "ADMIN",
+                    NormalizedEmail = "Admin@gmail.com".ToUpper(),
+                    PasswordHash = "\"AQAAAAEAACcQAAAAEMM3WcPhO+pCDtY91ukic7qiLutGRSmMj5UmQtJvUNzacT0ZT9ndKTAWF2NzyNYpWA==\"", ExtentionId = Guid.NewGuid() }
+            );
+            builder.Entity<Role>().HasData(
+                new Role { Id = 1, Name = "Admin", NormalizedName = "ADMIN" },
+                new Role { Id = 2, Name = "Staff", NormalizedName = "STAFF" }
+            );
+            builder.Entity<IdentityUserRole<int>>().HasData(
+                new IdentityUserRole<int> { UserId = 1, RoleId = 1 }
+            );
+            base.OnModelCreating(builder);
+        }
+
         //public DbSet<Category> Category { get;set; }
         //public DbSet<Location> Location { get;set; }
         //public DbSet<Shop> Shop { get;set; }

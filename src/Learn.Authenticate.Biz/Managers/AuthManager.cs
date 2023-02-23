@@ -79,7 +79,7 @@ namespace Learn.Authenticate.Biz.Services
             var result = await _userManager.CreateAsync(user);
             await _userManager.AddToRoleAsync(user, RoleExtension.Staff);
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            //var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             //var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new { token, email = user.Email }, Request.Scheme);
             //var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
             //await _emailSender.SendEmailAsync(message);
