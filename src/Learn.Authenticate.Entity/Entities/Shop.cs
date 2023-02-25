@@ -19,6 +19,9 @@ namespace Learn.Authenticate.Entity.Entities
         public string GoogleMap { get; set; }
         public string Thumbnail { get; set; }
         public string Images { get; set; }
-        public int LocationId { get; set; }
+        public int ProvinceId { get; set; }
+        public int CityId { get; set; }
+        [Required]
+        public string Status { get; set; }
     }
 }

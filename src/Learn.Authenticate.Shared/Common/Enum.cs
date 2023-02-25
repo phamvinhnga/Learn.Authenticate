@@ -12,6 +12,7 @@ namespace Learn.Authenticate.Shared.Common
         public enum Folder : int
         {
             Post,
+            Shop
         }
     }
 }

@@ -29,6 +29,11 @@ namespace Learn.Authenticate.Biz.AutoMapper
             CreateMap<Post, PostOutputModel>()
                 .ForMember(d => d.Thumbnail, opt => opt.MapFrom(src => src.Thumbnail.ConvertFromJson<FileModel>()));
             //end post
+
+            CreateMap<ShopInputModel, Shop>()
+                .ForMember(d => d.Thumbnail, o => o.Ignore());
+            CreateMap<Shop, ShopOutputModel>()
+                .ForMember(d => d.Thumbnail, opt => opt.MapFrom(src => src.Thumbnail.ConvertFromJson<FileModel>()));
         }
     }
 }
