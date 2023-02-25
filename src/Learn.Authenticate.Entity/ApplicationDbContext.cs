@@ -75,5 +75,6 @@ namespace Learn.Authenticate.Entity
         public DbSet<Post> Post { get;set; }
         public DbSet<Location> Location { get; set; }
         public DbSet<Shop> Shop { get; set; }
+        public DbSet<CategoryFood> CategoryFood { get; set; }
     }
 }

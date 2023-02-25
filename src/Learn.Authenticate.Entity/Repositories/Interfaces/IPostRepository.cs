@@ -8,6 +8,7 @@ namespace Learn.Authenticate.Entity.Repositories.Interfaces
         Task<Post> CreateAsync(Post input);
         Task UpdateAsync(Post input);
         Task<Post> GetByIdAsync(int id);
+        Task<Post> GetByPermalinkAsync(string permalink);
         Task DeleteAsync(Post input);
         Task<BasePageOutputModel<Post>> GetListAsync(BasePageInputModel input);
     }

@@ -3,30 +3,31 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Learn.Authenticate.Entity.Model
 {
-    public class PostInputModel 
+    public class CategoryFoodInputModel
     {
         public int Id { get; set; }
         [Required]
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Summary { get; set; }
+        public string Code { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public FileModel Thumbnail { get; set; }
         public string Permalink { get; set; }
         public string MetaTitle { get; set; }
         public string MetaDescription { get; set; }
-        public FileModel Thumbnail { get; set; }
     }
 
-    public class PostOutputModel
+    public class CategoryFoodOutputModel
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Summary { get; set; }
+        [Required]
+        public string Code { get; set; }
+        [Required]
+        public string Name { get; set; }
         public FileModel Thumbnail { get; set; }
         public DateTime CreateDate { get; set; }
+        public int CreateUser { get; set; }
         public string Permalink { get; set; }
         public string MetaTitle { get; set; }
         public string MetaDescription { get; set; }
-        public int CreateUser { get; set; }
     }
 }

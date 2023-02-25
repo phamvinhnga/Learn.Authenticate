@@ -19,6 +19,49 @@ namespace Learn.Authenticate.Entity.Migrations
                 .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Learn.Authenticate.Entity.Entities.CategoryFood", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("CreateUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MetaDescription")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MetaTitle")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ModifyUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Permalink")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoryFood");
+                });
+
             modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -75,11 +118,23 @@ namespace Learn.Authenticate.Entity.Migrations
                     b.Property<string>("Images")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("MetaDescription")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MetaTitle")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime>("ModifyDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("ModifyUser")
                         .HasColumnType("int");
+
+                    b.Property<string>("Permalink")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Summary")
                         .HasColumnType("longtext");
@@ -140,6 +195,59 @@ namespace Learn.Authenticate.Entity.Migrations
                             Name = "Staff",
                             NormalizedName = "STAFF"
                         });
+                });
+
+            modelBuilder.Entity("Learn.Authenticate.Entity.Entities.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("CreateUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GoogleMap")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Images")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("ModifyDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ModifyUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ProvinceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shop");
                 });
 
             modelBuilder.Entity("Learn.Authenticate.Entity.Entities.User", b =>
@@ -232,8 +340,9 @@ namespace Learn.Authenticate.Entity.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "\"AQAAAAEAACcQAAAAEMM3WcPhO+pCDtY91ukic7qiLutGRSmMj5UmQtJvUNzacT0ZT9ndKTAWF2NzyNYpWA==\"",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFOoRzBpqXb8F0WviERxaxTASMpJTaTKwArF5PY8t1CP2R+9Wbxhkg8cAxH7iC1moA==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "MI2WNXFQ63DAE4BCNM5YLJKU2MSFWIVQ",
                             Surname = "ADMIN",
                             TwoFactorEnabled = false,
                             UserName = "Admin"

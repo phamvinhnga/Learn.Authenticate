@@ -88,11 +88,20 @@ namespace Learn.Authenticate.Biz.Managers
             return _mapper.Map<PostOutputModel>(query);
         }
 
+        public async Task<PostOutputModel> GetByPermalinkAsync(string permalink)
+        {
+            var query = await _postRepository.GetByPermalinkAsync(permalink);
+            if (query == null)
+            {
+                throw new BadRequestException($"Cannot find permalink {permalink}");
+            }
+            return _mapper.Map<PostOutputModel>(query);
+        }
+
         public async Task<BasePageOutputModel<PostOutputModel>> GetListAsync(BasePageInputModel input)
         {
             var query = await _postRepository.GetListAsync(input);
-
-            return query.JsonMapTo<BasePageOutputModel<PostOutputModel>>();
+            return new BasePageOutputModel<PostOutputModel>(query.TotalItem, _mapper.Map<List<PostOutputModel>>(query.Items));
         }
     }
 }

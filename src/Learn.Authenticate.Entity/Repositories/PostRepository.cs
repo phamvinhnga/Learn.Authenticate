@@ -32,6 +32,7 @@ namespace Learn.Authenticate.Entity.Repositories
             {
                 Id = s.Id,
                 Title = s.Title,
+                Thumbnail = s.Thumbnail,
                 CreateDate = s.CreateDate
             });
 
@@ -64,6 +65,11 @@ namespace Learn.Authenticate.Entity.Repositories
                 _context.Entry(input).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             });
+        }
+
+        public Task<Post> GetByPermalinkAsync(string permalink)
+        {
+            return _context.Post.AsNoTracking().FirstOrDefaultAsync(f => f.Permalink == permalink);
         }
     }
 }

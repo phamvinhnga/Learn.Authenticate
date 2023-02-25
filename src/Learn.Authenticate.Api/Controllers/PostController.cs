@@ -1,6 +1,5 @@
 ﻿using Learn.Authenticate.Api.Filters;
 using Learn.Authenticate.Biz.Managers.Interfaces;
-using Learn.Authenticate.Entity.Migrations;
 using Learn.Authenticate.Entity.Model;
 using Learn.Authenticate.Shared.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -23,10 +22,18 @@ namespace Learn.Authenticate.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        [ServiceFilter(typeof(AdminRoleFilter))]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             return Ok(await _postManager.GetByIdAsync(id));
+        }
+
+
+        [HttpGet("permalink/{permalink}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByPermalinkAsync(string permalink)
+        {
+            return Ok(await _postManager.GetByPermalinkAsync(permalink));
         }
 
         [HttpGet]

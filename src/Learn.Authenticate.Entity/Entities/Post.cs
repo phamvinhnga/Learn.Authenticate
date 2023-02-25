@@ -17,7 +17,12 @@ namespace Learn.Authenticate.Entity.Entities
         public string Content { get; set; }
         public string Summary { get; set; }
         public string Type { get; set; }
+        public string Status { get; set; }
         public string Thumbnail { get; set; }
         public string Images { get; set; }
+        public string Permalink { get; set; }
+        public string MetaTitle { get; set; }
+        public string MetaDescription { get; set; }
+
     }
 }
