@@ -9,6 +9,6 @@ namespace Learn.Authenticate.Entity.Repositories.Interfaces
         Task UpdateAsync(Location input);
         Task<Location> GetByIdAsync(int id);
         Task DeleteAsync(Location input);
-        Task<BasePageOutputModel<Location>> GetListAsync(BasePageInputModel input);
+        Task<BasePageOutputModel<Location>> GetListAsync(LocationBasePageInputModel input);
     }
 }

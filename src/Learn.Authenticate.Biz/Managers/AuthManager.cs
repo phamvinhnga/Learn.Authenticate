@@ -45,6 +45,20 @@ namespace Learn.Authenticate.Biz.Services
             _signInManager = signInManager;
         }
 
+        public async Task<UserSignInOutputModel> RefreshTokenAsync(string refreshToken)
+        {
+            var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(refreshToken);
+            var userId = jwtSecurityToken.Claims.FirstOrDefault(f => ClaimTypes.NameIdentifier == f.Type)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new BadRequestException("xx");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            return await BuildTokenAsync(user);
+        }
+
         public async Task<CurrentUserOutputModel> GetCurrentUserByIdAsync(int userId)
         {
             if (userId == 0)
@@ -83,7 +97,6 @@ namespace Learn.Authenticate.Biz.Services
             //var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
             //await _emailSender.SendEmailAsync(message);
 
-
             return result;
         }
 
@@ -96,38 +109,12 @@ namespace Learn.Authenticate.Biz.Services
                 throw new ArgumentNullException($"Username {input.UserName} cannot found in system");
             }
 
-            if(!await _userManager.IsEmailConfirmedAsync(user))
-            {
-                throw new UnauthorizedException("abc", StatusCodes.Status406NotAcceptable);
-            }
-
             if (await _userManager.CheckPasswordAsync(user, input.Password))
             {
-                await SupportsUserLockoutAsync(user);
-
-                if (_userManager.SupportsUserLockout)
-                {
-                    await _userManager.ResetAccessFailedCountAsync(user);
-                }
                 return await BuildTokenAsync(user);
             }
 
-            await SupportsUserLockoutAsync(user);
-
             throw new UnauthorizedException("Incorrect account or password", StatusCodes.Status406NotAcceptable);
-        }
-
-        private async Task SupportsUserLockoutAsync(User user)
-        {
-            if (_userManager.SupportsUserLockout)
-            {
-                await _userManager.AccessFailedAsync(user);
-                if (await _userManager.IsLockedOutAsync(user))
-                {
-                    _logger.LogWarning("User is currently locked out.");
-                    throw new UnauthorizedException("User is currently locked out.", StatusCodes.Status406NotAcceptable);
-                }
-            }
         }
 
         private async Task<UserSignInOutputModel> BuildTokenAsync(User user)
@@ -183,8 +170,32 @@ namespace Learn.Authenticate.Biz.Services
             return new UserSignInOutputModel()
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                RefreshToken = BuildRefreshToken(user.Id),
                 Expire = expires
             };
+        }
+
+        private string BuildRefreshToken(int userId)
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+            };
+   
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JWT:SecurityKey").Value));
+            var expires = DateTime.Now.AddHours(int.Parse(_configuration.GetSection("JWT:ExpiresRefreshToken").Value));
+            var audience = _configuration.GetSection("JWT:ValidAudience").Value;
+            var issuer = _configuration.GetSection("JWT:ValidIssuer").Value;
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                audience: audience,
+                issuer: issuer,
+                claims: claims,
+                expires: expires,
+                signingCredentials: signingCredentials
+            );
+            return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         }
     }
 }

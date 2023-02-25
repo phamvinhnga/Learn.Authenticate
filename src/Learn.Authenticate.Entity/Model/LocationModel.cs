@@ -11,6 +11,12 @@ namespace Learn.Authenticate.Entity.Model
         public string Status { get; set; }
     }
 
+    public class LocationBasePageInputModel : BasePageInputModel
+    {
+        public int ParentId { get; set; }
+        public string Type { get; set; }
+    }
+
     public class LocationInputModel
     {
         public int Id { get; set; }

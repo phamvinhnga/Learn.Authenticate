@@ -55,5 +55,18 @@ namespace Learn.Authenticate.Api.Controllers
             );
             return Ok(result);
         }
+
+        [HttpGet("refresh-token")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshTokenAsync()
+        {
+            var refreshToken = Request.Headers["refresh-token"].ToString();
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return BadRequest("RefreshT token is emty");
+            }
+            var result = await _authManager.RefreshTokenAsync(refreshToken);
+            return Ok(result);
+        }
     }
 }

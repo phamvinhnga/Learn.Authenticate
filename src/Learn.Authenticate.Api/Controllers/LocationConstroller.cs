@@ -29,8 +29,8 @@ namespace Learn.Authenticate.Api.Controllers
         }
 
         [HttpGet]
-        [ServiceFilter(typeof(AdminRoleFilter))]
-        public async Task<IActionResult> GetListAsync([FromQuery] BasePageInputModel input)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetListAsync([FromQuery] LocationBasePageInputModel input)
         {
             return Ok(await _locationManager.GetListAsync(input));
         }

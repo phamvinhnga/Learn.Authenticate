@@ -3,15 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Learn.Authenticate.Entity.Model
 {
-    public class PostModel : BaseModel<int>
-    {
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Summary { get; set; }
-        public string Type { get; set; }
-        public string Thumbnail { get; set; }
-    }
-
     public class PostInputModel 
     {
         public int Id { get; set; }

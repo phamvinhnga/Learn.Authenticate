@@ -38,9 +38,12 @@ namespace Learn.Authenticate.Entity.Repositories
             return _context.Location.AsNoTracking().FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public async Task<BasePageOutputModel<Location>> GetListAsync(BasePageInputModel input)
+        public async Task<BasePageOutputModel<Location>> GetListAsync(LocationBasePageInputModel input)
         {
-            var query = await _context.Location.OrderBy(o => o.Name).ToListAsync();
+            var query = await _context.Location
+                .Where(w => w.ParentId == input.ParentId && w.Type == input.Type)
+                .OrderBy(o => o.Name)
+                .ToListAsync();
             return new BasePageOutputModel<Location>(query.Count(), query);
         }
 

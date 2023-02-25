@@ -13,6 +13,6 @@ namespace Learn.Authenticate.Biz.Managers.Interfaces
         Task UpdateAsync(LocationInputModel input, int userId);
         Task<LocationOutputModel> GetByIdAsync(int id);
         Task DeleteAsync(int id);
-        Task<BasePageOutputModel<LocationOutputModel>> GetListAsync(BasePageInputModel input);
+        Task<BasePageOutputModel<LocationOutputModel>> GetListAsync(LocationBasePageInputModel input);
     }
 }

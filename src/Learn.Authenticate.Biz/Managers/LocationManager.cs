@@ -43,16 +43,10 @@ namespace Learn.Authenticate.Biz.Managers
             return query.JsonMapTo<LocationOutputModel>();
         }
 
-        public async Task<BasePageOutputModel<LocationOutputModel>> GetListAsync(BasePageInputModel input)
+        public async Task<BasePageOutputModel<LocationOutputModel>> GetListAsync(LocationBasePageInputModel input)
         {
             var query = await _locationRepository.GetListAsync(input);
-            var items = new List<LocationOutputModel>();
-            foreach (var item in query.Items.Where(w => w.ParentId == 0).JsonMapTo<List<LocationOutputModel>>())
-            {
-                item.Children = query.Items.Where(w => w.ParentId == item.Id).JsonMapTo<List<LocationOutputModel>>();
-                items.Add(item);
-            }
-            return new BasePageOutputModel<LocationOutputModel>(items.Count(), items);
+            return query.JsonMapTo<BasePageOutputModel<LocationOutputModel>>();
         }
 
         public async Task UpdateAsync(LocationInputModel input, int userId)

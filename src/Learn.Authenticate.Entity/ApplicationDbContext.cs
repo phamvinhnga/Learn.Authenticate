@@ -54,8 +54,9 @@ namespace Learn.Authenticate.Entity
                     UserName = "Admin",
                     NormalizedUserName = "ADMIN",
                     NormalizedEmail = "Admin@gmail.com".ToUpper(),
-                    PasswordHash = "\"AQAAAAEAACcQAAAAEMM3WcPhO+pCDtY91ukic7qiLutGRSmMj5UmQtJvUNzacT0ZT9ndKTAWF2NzyNYpWA==\"", 
+                    PasswordHash = "AQAAAAEAACcQAAAAEFOoRzBpqXb8F0WviERxaxTASMpJTaTKwArF5PY8t1CP2R+9Wbxhkg8cAxH7iC1moA==", 
                     ConcurrencyStamp = "418f2935-171e-4f02-90b4-93a8746f4bf6",
+                    SecurityStamp = "MI2WNXFQ63DAE4BCNM5YLJKU2MSFWIVQ",
                     ExtentionId = new Guid("2a17f888-1e93-4334-9189-d81c3aac9c45")
                 }
             );
@@ -70,9 +71,9 @@ namespace Learn.Authenticate.Entity
         }
 
         //public DbSet<Category> Category { get;set; }
-        //public DbSet<Shop> Shop { get;set; }
         //public DbSet<WebSetting> WebSetting { get;set; }
         public DbSet<Post> Post { get;set; }
         public DbSet<Location> Location { get; set; }
+        public DbSet<Shop> Shop { get; set; }
     }
 }

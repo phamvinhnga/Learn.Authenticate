@@ -33,8 +33,8 @@ namespace Learn.Authenticate.Entity.Model
     public class UserSignInOutputModel
     {
         public string AccessToken { get; set; }
-
         public DateTime Expire { get; set; }
+        public string RefreshToken { get; set; }
     }
 
     public class CurrentUserOutputModel
